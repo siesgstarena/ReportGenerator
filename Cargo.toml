@@ -1,0 +1,13 @@
+[package]
+name = "reportgenerator"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+tokio = { version = "1.21.2", features = ["full"] }
+mongodb = {version = "2.3.1", features = ["tokio-runtime"] }
+futures = "0.3.0"
+docx-rs = "0.2"
+dotenv = "0.15.0"

@@ -19,11 +19,6 @@ pub fn table(users : &Vec<Bson>) -> Result<(), DocxError>{
             TableCell::new().add_paragraph(Paragraph::new().add_run(Run::new().add_text(user.as_str().unwrap()).fonts(RunFonts::new().ascii("Calibri (Body)")).size(28))),
         ]));
     } 
-    match Docx::new().add_table(table).build().pack(file) {
-        Ok(_) => println!("Successfully created table.docx"),
-        Err(e) => panic!("Failed to create table.docx: {:?}", e),
-    }; 
-
+    Docx::new().add_table(table).build().pack(file).expect("Failed to create docx file");
     Ok(())
-    
 }

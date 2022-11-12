@@ -7,7 +7,7 @@ use mongodb::{
 use crate::db::connect::connect;
 pub async fn allusers_participated(contest_id: &str) -> Vec<Document> {
     let c = connect().await;
-    let submissions: Collection<Document> = c.collection("contests");
+    let contests: Collection<Document> = c.collection("contests");
     let mut all_users = Vec::new();
     let pipe_line = vec![
         doc! {
@@ -75,7 +75,10 @@ pub async fn allusers_participated(contest_id: &str) -> Vec<Document> {
             }
         },
     ];
-    let mut alluserscursor = submissions.aggregate(pipe_line, None).await.unwrap();
+    let mut alluserscursor = match contests.aggregate(pipe_line, None).await{
+        Ok(cursor) => cursor,
+        Err(e) => panic!("Failed to fetch document: {:?}", e),
+    };
     while let Some(result) = alluserscursor.next().await {
         match result {
             Ok(document) => {
